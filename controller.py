@@ -1,6 +1,4 @@
 from model import Model
-# ********************************************************
-import json
 import matplotlib.pyplot as plt
 from datetime import datetime
 
@@ -9,7 +7,7 @@ class Controller:
         self.model = Model()
         self.data = self.model.lectura_json()
 
-    def plot(self, graphic_name):
+    def plot_metric(self, graphic_name):
         dias = []
         valores = []
         for dia, provincias in self.data.items():
@@ -31,7 +29,65 @@ class Controller:
         plt.bar(dias, valores, color='red')
         plt.xlabel('Día de la Semana')
         plt.ylabel(f'Número {graphic_name}')
-        plt.title('Defunciones por Día de la Semana')
+        plt.title(f'{graphic_name} por Día de la Semana')
         plt.xticks(rotation=45)
         plt.tight_layout()
         plt.show()
+
+    def search_max(self):
+        ciudades = {}
+        max_num_def = {
+            'provincia' : '',
+            'num_max' : 0
+        }
+        max_new_cases= {
+            'provincia' : '',
+            'num_max' : 0
+        }
+        max_num_hosp = {
+            'provincia' : '',
+            'num_max' : 0
+        }
+        max_num_uci = {
+            'provincia' : '',
+            'num_max' : 0
+        }
+        for dia, provincias in self.data.items(): 
+            for provincia, indicadores in provincias.items():
+                if provincia not in ciudades:
+                    ciudades[provincia] = {
+                        'num_def': 0,
+                        'new_cases': 0,
+                        'num_hosp': 0,
+                        'num_uci': 0
+                    }
+
+                ciudades[provincia]['num_def'] += indicadores.get('num_def', 0)
+                ciudades[provincia]['new_cases'] += indicadores.get('new_cases', 0)
+                ciudades[provincia]['num_hosp'] += indicadores.get('num_hosp', 0)
+                ciudades[provincia]['num_uci'] += indicadores.get('num_uci', 0)
+
+        for provincia, indicadores_totales in ciudades.items():
+            if ( indicadores_totales['num_def'] > max_num_def['num_max']):
+                max_num_def['num_max'] = max(max_num_def['num_max'], indicadores_totales['num_def'])
+                max_num_def['provincia'] = provincia
+            if ( indicadores_totales['num_def'] > max_new_cases['num_max']):
+                max_new_cases['num_max'] = max(max_new_cases['num_max'], indicadores_totales['new_cases'])
+                max_new_cases['provincia'] = provincia
+            if ( indicadores_totales['num_def'] > max_num_hosp['num_max']):
+                max_num_hosp['num_max'] = max(max_num_hosp['num_max'], indicadores_totales['num_hosp'])
+                max_num_hosp['provincia'] = provincia
+            if ( indicadores_totales['num_def'] > max_num_uci['num_max']):
+                max_num_uci['num_max'] = max(max_num_uci['num_max'], indicadores_totales['num_uci'])
+                max_num_uci['provincia'] = provincia
+                     
+        print(max_num_def)
+        print(max_new_cases)
+        print(max_num_hosp)
+        print(max_num_uci)
+        # return {
+        #     'max_num_def': max_num_def,
+        #     'max_new_cases': max_new_cases,
+        #     'max_num_hosp': max_num_hosp,
+        #     'max_num_uci': max_num_uci
+        # }

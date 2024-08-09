@@ -16,19 +16,22 @@ class Menu:
             opt = input("Introduce una opcion: ")
             if opt == '1':
                 graphic_name = "Defunciones"
-                self.controller.plot(graphic_name)         
+                self.controller.plot_metric(graphic_name)         
             elif opt == '2':
                 graphic_name = "Casos"
-                self.controller.plot(graphic_name)  
+                self.controller.plot_metric(graphic_name)  
             elif opt == '3':
                 graphic_name = "Hospitalizados"
-                self.controller.plot(graphic_name)  
+                self.controller.plot_metric(graphic_name)  
             elif opt == '4':
                 graphic_name = "UCI"
-                self.controller.plot(graphic_name)  
+                self.controller.plot_metric(graphic_name)  
             elif opt == '5':
                 print("Saliendo...")
                 break
+            elif opt == '6':
+                print(self.controller.search_max())
+
             else:
                 print("Opción no disponible")
      
