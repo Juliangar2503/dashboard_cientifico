@@ -31,13 +31,13 @@ class Menu:
                 graphic_name = "UCI"
                 self.controller.plot_metric(graphic_name)  
             elif opt == '5':
-                self.controller.crear_pastel('num_def')
+                self.controller.create_cake('num_def')
             elif opt == '6':
-                self.controller.crear_pastel('new_cases')
+                self.controller.create_cake('new_cases')
             elif opt == '7':
-                self.controller.crear_pastel('num_hosp')
+                self.controller.create_cake('num_hosp')
             elif opt == '8':
-                self.controller.crear_pastel('num_uci')
+                self.controller.create_cake('num_uci')
             elif opt == '9':
                 print("Saliendo...")
                 break

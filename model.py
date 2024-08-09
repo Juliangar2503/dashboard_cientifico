@@ -67,5 +67,3 @@ class Model:
     def lectura_json(self):
         with open(self.archivo_salida_json, 'r', encoding='utf-8') as file:
             return json.load(file)
-
-# *********************************************************
