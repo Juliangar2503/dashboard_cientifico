@@ -52,7 +52,7 @@ class Controller:
                 ciudades[provincia]['num_uci'] += indicadores.get('num_uci', 0)
         return ciudades
 
-    def search_max(self):
+    def search_max(self, tipo):
         ciudades = self.group_by_province()
         max_num_def = {
             'provincia' : '',
@@ -75,22 +75,26 @@ class Controller:
             if ( indicadores_totales['num_def'] > max_num_def['num_max']):
                 max_num_def['num_max'] = max(max_num_def['num_max'], indicadores_totales['num_def'])
                 max_num_def['provincia'] = provincia
-            if ( indicadores_totales['num_def'] > max_new_cases['num_max']):
+            if ( indicadores_totales['new_cases'] > max_new_cases['num_max']):
                 max_new_cases['num_max'] = max(max_new_cases['num_max'], indicadores_totales['new_cases'])
                 max_new_cases['provincia'] = provincia
-            if ( indicadores_totales['num_def'] > max_num_hosp['num_max']):
+            if ( indicadores_totales['num_hosp'] > max_num_hosp['num_max']):
                 max_num_hosp['num_max'] = max(max_num_hosp['num_max'], indicadores_totales['num_hosp'])
                 max_num_hosp['provincia'] = provincia
-            if ( indicadores_totales['num_def'] > max_num_uci['num_max']):
+            if ( indicadores_totales['num_uci'] > max_num_uci['num_max']):
                 max_num_uci['num_max'] = max(max_num_uci['num_max'], indicadores_totales['num_uci'])
                 max_num_uci['provincia'] = provincia
                      
-        print(max_num_def)
-        print(max_new_cases)
-        print(max_num_hosp)
-        print(max_num_uci)
-
-    def search_min(self):
+        if(tipo == 'num_def'):
+            print("Provincia con mínimo de defunciones:", max_num_def)
+        if(tipo == 'new_cases'):
+            print("Provincia con mínimo de nuevos casos:", max_new_cases)
+        if(tipo == 'num_hosp'):
+            print("Provincia con mínimo de hospitalizados:", max_num_hosp)
+        if(tipo == 'num_uci'):
+            print("Provincia con mínimo de UCI:", max_num_uci)
+        
+    def search_min(self, tipo):
         ciudades = self.group_by_province()
         min_num_def = {
             'provincia': '',
@@ -113,25 +117,40 @@ class Controller:
             if ( indicadores_totales['num_def'] < min_num_def['num_min']):
                 min_num_def['num_min'] = min(min_num_def['num_min'], indicadores_totales['num_def'])
                 min_num_def['provincia'] = provincia
-            if ( indicadores_totales['num_def'] < min_new_cases['num_min']):
+            if ( indicadores_totales['new_cases'] < min_new_cases['num_min']):
                 min_new_cases['num_min'] = min(min_new_cases['num_min'], indicadores_totales['new_cases'])
                 min_new_cases['provincia'] = provincia
-            if ( indicadores_totales['num_def'] < min_num_hosp['num_min']):
+            if ( indicadores_totales['num_hosp'] < min_num_hosp['num_min']):
                 min_num_hosp['num_min'] = min(min_num_hosp['num_min'], indicadores_totales['num_hosp'])
                 min_num_hosp['provincia'] = provincia
-            if ( indicadores_totales['num_def'] < min_num_uci['num_min']):
+            if ( indicadores_totales['num_uci'] < min_num_uci['num_min']):
                 min_num_uci['num_min'] = min(min_num_uci['num_min'], indicadores_totales['num_uci'])
                 min_num_uci['provincia'] = provincia
                      
-        print("Provincia con mínimo de defunciones:", min_num_def)
-        print("Provincia con mínimo de nuevos casos:", min_new_cases)
-        print("Provincia con mínimo de hospitalizados:", min_num_hosp)
-        print("Provincia con mínimo de UCI:", min_num_uci)
-
-    def crear_pastel(self, provincias, datos, titulo):
+        if(tipo == 'num_def'):
+            print("Provincia con mínimo de defunciones:", min_num_def)
+        if(tipo == 'new_cases'):
+            print("Provincia con mínimo de nuevos casos:", min_new_cases)
+        if(tipo == 'num_hosp'):
+            print("Provincia con mínimo de hospitalizados:", min_num_hosp)
+        if(tipo == 'num_uci'):
+            print("Provincia con mínimo de UCI:", min_num_uci)
+        
+    def create_cake(self, tipo):
+        provincias = []
+        valores = []
+        global_data = self.group_by_province()
+        for provincia, indicadores in global_data.items():
+            provincias.append(provincia)
+            valores.append(indicadores[tipo])
+        
         plt.figure(figsize=(8, 6))
-        plt.pie(datos, labels=provincias, autopct='%1.1f%%', startangle=140)
-        plt.title(titulo)
+        plt.pie(valores, labels=provincias, autopct='%1.1f%%', startangle=140)
+        plt.title(f'Grafica de {tipo}')
         plt.axis('equal')  # Para que el gráfico sea un círculo perfecto
         plt.show()
+
+        self.search_max(tipo)
+        self.search_min(tipo)
+
         

@@ -7,11 +7,15 @@ class Menu:
     def run(self):
         while(True):
             print("""Seleccione la grafica a visualizar:
-            1) Defunciones
-            2) Casos
-            3) Hospitalizados
-            4) UCI
-            5) Salir
+            1) Defunciones diarias
+            2) Casos diarias
+            3) Hospitalizados diarias
+            4) UCI diarias
+            5) Diagrama de defunciones por ciudad
+            6) Diagrama de Casos por ciudad
+            7) Diagrama de Hospitalizados por ciudad
+            8) Diagrama de UCI por ciudad
+            9) Salir
             """)
             opt = input("Introduce una opcion: ")
             if opt == '1':
@@ -27,14 +31,16 @@ class Menu:
                 graphic_name = "UCI"
                 self.controller.plot_metric(graphic_name)  
             elif opt == '5':
+                self.controller.crear_pastel('num_def')
+            elif opt == '6':
+                self.controller.crear_pastel('new_cases')
+            elif opt == '7':
+                self.controller.crear_pastel('num_hosp')
+            elif opt == '8':
+                self.controller.crear_pastel('num_uci')
+            elif opt == '9':
                 print("Saliendo...")
                 break
-            elif opt == '6':
-                print(self.controller.search_max())
-            elif opt == '7':
-                print(self.controller.search_min())
-            elif opt == '8':
-                self.controller.crear_pastel(['Provincia A', 'Provincia B', 'Provincia C'], [120, 150, 80], 'Defunciones por Provincia')
 
 
             else:
