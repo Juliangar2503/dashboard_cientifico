@@ -19,3 +19,9 @@ Para comenzar a usar el Dashboard Científico, sigue estos pasos:
 2. **Clona el repositorio**:
    ```bash
    git clone https://github.com/usuario/dashboard-cientifico.git
+
+## Capturas de Pantalla
+
+A continuación, se muestra una captura del resultado final del Dashboard Científico en funcionamiento:
+
+![Captura de Pantalla](images/axample1.png)
