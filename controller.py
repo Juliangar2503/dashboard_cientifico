@@ -34,8 +34,26 @@ class Controller:
         plt.tight_layout()
         plt.show()
 
-    def search_max(self):
+    def group_by_province(self):
         ciudades = {}
+        for dia, provincias in self.data.items(): 
+            for provincia, indicadores in provincias.items():
+                if provincia not in ciudades:
+                    ciudades[provincia] = {
+                        'num_def': 0,
+                        'new_cases': 0,
+                        'num_hosp': 0,
+                        'num_uci': 0
+                    }
+
+                ciudades[provincia]['num_def'] += indicadores.get('num_def', 0)
+                ciudades[provincia]['new_cases'] += indicadores.get('new_cases', 0)
+                ciudades[provincia]['num_hosp'] += indicadores.get('num_hosp', 0)
+                ciudades[provincia]['num_uci'] += indicadores.get('num_uci', 0)
+        return ciudades
+
+    def search_max(self):
+        ciudades = self.group_by_province()
         max_num_def = {
             'provincia' : '',
             'num_max' : 0
@@ -52,21 +70,7 @@ class Controller:
             'provincia' : '',
             'num_max' : 0
         }
-        for dia, provincias in self.data.items(): 
-            for provincia, indicadores in provincias.items():
-                if provincia not in ciudades:
-                    ciudades[provincia] = {
-                        'num_def': 0,
-                        'new_cases': 0,
-                        'num_hosp': 0,
-                        'num_uci': 0
-                    }
-
-                ciudades[provincia]['num_def'] += indicadores.get('num_def', 0)
-                ciudades[provincia]['new_cases'] += indicadores.get('new_cases', 0)
-                ciudades[provincia]['num_hosp'] += indicadores.get('num_hosp', 0)
-                ciudades[provincia]['num_uci'] += indicadores.get('num_uci', 0)
-
+       
         for provincia, indicadores_totales in ciudades.items():
             if ( indicadores_totales['num_def'] > max_num_def['num_max']):
                 max_num_def['num_max'] = max(max_num_def['num_max'], indicadores_totales['num_def'])
@@ -85,9 +89,4 @@ class Controller:
         print(max_new_cases)
         print(max_num_hosp)
         print(max_num_uci)
-        # return {
-        #     'max_num_def': max_num_def,
-        #     'max_new_cases': max_new_cases,
-        #     'max_num_hosp': max_num_hosp,
-        #     'max_num_uci': max_num_uci
-        # }
+        
