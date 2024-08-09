@@ -89,4 +89,49 @@ class Controller:
         print(max_new_cases)
         print(max_num_hosp)
         print(max_num_uci)
+
+    def search_min(self):
+        ciudades = self.group_by_province()
+        min_num_def = {
+            'provincia': '',
+            'num_min': float('inf')  # Iniciar con infinito positivo
+        }
+        min_new_cases = {
+            'provincia': '',
+            'num_min': float('inf')
+        }
+        min_num_hosp = {
+            'provincia': '',
+            'num_min': float('inf')
+        }
+        min_num_uci = {
+            'provincia': '',
+            'num_min': float('inf')
+        }
+       
+        for provincia, indicadores_totales in ciudades.items():
+            if ( indicadores_totales['num_def'] < min_num_def['num_min']):
+                min_num_def['num_min'] = min(min_num_def['num_min'], indicadores_totales['num_def'])
+                min_num_def['provincia'] = provincia
+            if ( indicadores_totales['num_def'] < min_new_cases['num_min']):
+                min_new_cases['num_min'] = min(min_new_cases['num_min'], indicadores_totales['new_cases'])
+                min_new_cases['provincia'] = provincia
+            if ( indicadores_totales['num_def'] < min_num_hosp['num_min']):
+                min_num_hosp['num_min'] = min(min_num_hosp['num_min'], indicadores_totales['num_hosp'])
+                min_num_hosp['provincia'] = provincia
+            if ( indicadores_totales['num_def'] < min_num_uci['num_min']):
+                min_num_uci['num_min'] = min(min_num_uci['num_min'], indicadores_totales['num_uci'])
+                min_num_uci['provincia'] = provincia
+                     
+        print("Provincia con mínimo de defunciones:", min_num_def)
+        print("Provincia con mínimo de nuevos casos:", min_new_cases)
+        print("Provincia con mínimo de hospitalizados:", min_num_hosp)
+        print("Provincia con mínimo de UCI:", min_num_uci)
+
+    def crear_pastel(self, provincias, datos, titulo):
+        plt.figure(figsize=(8, 6))
+        plt.pie(datos, labels=provincias, autopct='%1.1f%%', startangle=140)
+        plt.title(titulo)
+        plt.axis('equal')  # Para que el gráfico sea un círculo perfecto
+        plt.show()
         

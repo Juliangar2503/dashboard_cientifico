@@ -31,6 +31,11 @@ class Menu:
                 break
             elif opt == '6':
                 print(self.controller.search_max())
+            elif opt == '7':
+                print(self.controller.search_min())
+            elif opt == '8':
+                self.controller.crear_pastel(['Provincia A', 'Provincia B', 'Provincia C'], [120, 150, 80], 'Defunciones por Provincia')
+
 
             else:
                 print("Opción no disponible")
