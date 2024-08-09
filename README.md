@@ -24,4 +24,4 @@ Para comenzar a usar el Dashboard Científico, sigue estos pasos:
 
 A continuación, se muestra una captura del resultado final del Dashboard Científico en funcionamiento:
 
-![Captura de Pantalla](images/axample1.png)
+![Captura de Pantalla](images/example1.png)
