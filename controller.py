@@ -7,6 +7,7 @@ class Controller:
         self.model = Model()
         self.data = self.model.lectura_json()
 
+    # Funcion para crear las gráficas mediante el tipo de grafica
     def plot_metric(self, graphic_name):
         dias = []
         valores = []
@@ -34,6 +35,7 @@ class Controller:
         plt.tight_layout()
         plt.show()
 
+    # Funcion necesaria para agrupar las provincias y sus casos en el total de dias
     def group_by_province(self):
         ciudades = {}
         for dia, provincias in self.data.items(): 
@@ -52,6 +54,7 @@ class Controller:
                 ciudades[provincia]['num_uci'] += indicadores.get('num_uci', 0)
         return ciudades
 
+    # Funcion para encontrar el maximo de cada tipo
     def search_max(self, tipo):
         ciudades = self.group_by_province()
         max_num_def = {
@@ -93,7 +96,8 @@ class Controller:
             print("Provincia con mínimo de hospitalizados:", max_num_hosp)
         if(tipo == 'num_uci'):
             print("Provincia con mínimo de UCI:", max_num_uci)
-        
+    
+    # Funcion para encontrar el minimo de cada tipo
     def search_min(self, tipo):
         ciudades = self.group_by_province()
         min_num_def = {
@@ -136,6 +140,7 @@ class Controller:
         if(tipo == 'num_uci'):
             print("Provincia con mínimo de UCI:", min_num_uci)
         
+    # Con esta funcion creamos la grafica de pastel para visualizar los datos de cada provincia
     def create_cake(self, tipo):
         provincias = []
         valores = []
